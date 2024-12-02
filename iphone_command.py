@@ -5,6 +5,9 @@ import numpy.typing as npt
 
 
 class iPhoneEvents(IntEnum):
+    START_SESSION = auto()
+    PREPARE_END_SESSION = auto()
+    END_SESSION = auto()
     START_EPISODE = auto()
     END_EPISODE = auto()
     START_MOVEMENT = auto()

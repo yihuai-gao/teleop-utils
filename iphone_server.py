@@ -53,7 +53,6 @@ class iPhoneServer:
                 new_event = iPhoneEvents[state_update_str.upper()]
                 self.zmq_server.put_data("events", pickle.dumps(new_event))
 
-
     def run(self):
 
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

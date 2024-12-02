@@ -91,15 +91,16 @@
     // WebGL scene globals
     let gl = null;
 
+
     function initXR() {
       xrButton = new WebXRButton({
         onRequestSession,
         onPrepareEndSession,
         onEndSession,
-        textEnterXRTitle: 'Start episode',
+        textEnterXRTitle: 'Start Session',
         textXRNotFoundTitle: 'AR NOT FOUND',
-        textPrepareExitXRTitle: 'End episode',
-        textExitXRTitle: 'Reset env',
+        textPrepareExitXRTitle: 'Prepare End Session',
+        textExitXRTitle: 'End Session',
       });
       document.querySelector('header').appendChild(xrButton.domElement);
 
@@ -135,13 +136,13 @@
       });
 
       // Let the server know user has started the episode
-      const data = { timestamp: Date.now(), state_update: 'start_episode' };
+      const data = { timestamp: Date.now(), state_update: 'start_session' };
       socket.send(data);
     }
 
     function onPrepareEndSession() {
       // Let the server know user has ended the episode
-      const data = { timestamp: Date.now(), state_update: 'end_episode' };
+      const data = { timestamp: Date.now(), state_update: 'prepare_end_session' };
       socket.send(data);
     }
 
@@ -149,7 +150,7 @@
       session.end();
 
       // Let the server know user is ready for env reset
-      const data = { timestamp: Date.now(), state_update: 'reset_env' };
+      const data = { timestamp: Date.now(), state_update: 'end_session' };
       socket.send(data);
     }
 
@@ -159,27 +160,34 @@
     }
 
     // Touch event handling
-    let touchId; let touchStartY; let touchDeltaY; let teleopMode;
+    let touchId; let touchEventName;
+    let prevTouchId = undefined;
     function addCanvasListeners(canvas) {
-      function handleTouch(touch) {
-        touchDeltaY = (touchStartY - touch.clientY) / (0.2 * window.innerHeight);
-        touchDeltaY = Math.min(1, Math.max(-1, touchDeltaY));
-      }
 
       canvas.addEventListener('touchstart', (event) => {
         if (touchId === undefined) {
           const touch = event.changedTouches[0];
           touchId = touch.identifier;
-          touchStartY = touch.clientY;
-          teleopMode = touch.clientX < 0.7 * window.innerWidth ? 'arm' : 'base';
-          handleTouch(touch);
-        }
-      });
 
-      canvas.addEventListener('touchmove', (event) => {
-        for (const touch of event.changedTouches) {
-          if (touchId === touch.identifier) {
-            handleTouch(touch);
+          if (touch.clientY < 0.3 * window.innerHeight) {
+            // top
+            touchEventName = 'discard_episode'; // dark red
+          } else if (touch.clientY < 0.6 * window.innerHeight) {
+            if (touch.clientX < 0.5 * window.innerWidth) {
+              // middle left
+              touchEventName = 'close_gripper'; // light red
+            } else {
+              // middle right
+              touchEventName = 'open_gripper'; // light green
+            }
+          } else {
+            if (touch.clientX < 0.5 * window.innerWidth) {
+              // bottom left
+              touchEventName = 'save_episode'; // dark green
+            } else {
+              // bottom right
+              touchEventName = 'toggle_movement'; // light blue
+            }
           }
         }
       });
@@ -188,6 +196,8 @@
         for (const touch of event.changedTouches) {
           if (touchId === touch.identifier) {
             touchId = undefined;
+            touchEventName = undefined;
+            prevTouchId = undefined;
           }
         }
       }
@@ -199,19 +209,45 @@
       frame.session.requestAnimationFrame(onXRFrame);
 
       // Visualize status of touch control
-      const r = (touchId !== undefined && teleopMode === 'base') ? 0.25 : 0;
-      const b = (touchId !== undefined && teleopMode === 'arm')
-        ? (Math.abs(touchDeltaY) === 1 ? 1 : 0.25 + 0.25 * touchDeltaY)
-        : 0;
-      gl.clearColor(r, 0, b, 0.5);
+      let r = 0;
+      let g = 0;
+      let b = 0;
+      if (touchEventName === 'discard_episode') {
+        r = 0.5;
+      } else if (touchEventName === 'open_gripper') {
+        g = 0.25;
+      } else if (touchEventName === 'close_gripper') {
+        r = 0.25;
+      } else if (touchEventName === 'save_episode') {
+        g = 0.5;
+      } else if (touchEventName === 'toggle_movement') {
+        b = 0.5;
+      }
+
+      gl.clearColor(r, g, b, 0.5);
       gl.clear(gl.COLOR_BUFFER_BIT);
 
-      // Send data to server
-      const data = { timestamp: Date.now(), device_id: deviceId };
-      if (touchId !== undefined) {
+
+      const data = { timestamp: Date.now(), device_id: deviceId, xr_timestamp: t };
+      if (touchEventName === "toggle_movement") {
+        if (prevTouchId !== touchId) {
+          data.event = 'toggle_movement';
+          prevTouchId = touchId;
+        }
+      } else if (touchEventName === 'save_episode') {
+        if (prevTouchId !== touchId) {
+          data.event = 'save_episode';
+          prevTouchId = touchId;
+        }
+      } else if (touchEventName === 'discard_episode') {
+        if (prevTouchId !== touchId) {
+          data.event = 'discard_episode';
+          prevTouchId = touchId;
+        }
+      } else {
+        // Send data to server
         const pose = frame.getViewerPose(xrRefSpace);
         if (pose) {
-          data.teleop_mode = teleopMode;
           data.position = {
             x: pose.transform.inverse.position.x,
             y: pose.transform.inverse.position.y,
@@ -223,11 +259,15 @@
             z: pose.transform.inverse.orientation.z,
             w: pose.transform.inverse.orientation.w,
           };
-        }
-        if (teleopMode === 'arm') {
-          data.gripper_delta = touchDeltaY;
+          data.gripper_speed = 0;
+          if (touchEventName === 'open_gripper') {
+            data.gripper_speed = 1;
+          } else if (touchEventName === 'close_gripper') {
+            data.gripper_speed = -1;
+          }
         }
       }
+
       socket.send(data);
     }
 
