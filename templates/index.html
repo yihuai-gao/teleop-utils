@@ -136,13 +136,13 @@
       });
 
       // Let the server know user has started the episode
-      const data = { timestamp: Date.now(), state_update: 'start_session' };
+      const data = { timestamp: Date.now(), event: 'start_session' };
       socket.send(data);
     }
 
     function onPrepareEndSession() {
       // Let the server know user has ended the episode
-      const data = { timestamp: Date.now(), state_update: 'prepare_end_session' };
+      const data = { timestamp: Date.now(), event: 'prepare_end_session' };
       socket.send(data);
     }
 
@@ -150,7 +150,7 @@
       session.end();
 
       // Let the server know user is ready for env reset
-      const data = { timestamp: Date.now(), state_update: 'end_session' };
+      const data = { timestamp: Date.now(), event: 'end_session' };
       socket.send(data);
     }
 

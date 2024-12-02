@@ -29,6 +29,7 @@ class iPhoneServer:
             if "position" in data:
                 new_cmd = TeleopData(
                     data["timestamp"],
+                    data["xr_timestamp"],
                     np.array(
                         [
                             data["position"]["x"],
@@ -44,13 +45,12 @@ class iPhoneServer:
                             data["orientation"]["z"],
                         ]
                     ),
-                    0.0,
-                    # data["gripper"],
+                    data["gripper_speed"],
                 )
                 self.zmq_server.put_data("data", pickle.dumps(new_cmd))
-            if "state_update" in data:
-                state_update_str: str = data["state_update"]
-                new_event = iPhoneEvents[state_update_str.upper()]
+            if "event" in data:
+                event_str: str = data["event"]
+                new_event = iPhoneEvents[event_str.upper()]
                 self.zmq_server.put_data("events", pickle.dumps(new_event))
 
     def run(self):

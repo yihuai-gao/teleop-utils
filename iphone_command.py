@@ -8,17 +8,15 @@ class iPhoneEvents(IntEnum):
     START_SESSION = auto()
     PREPARE_END_SESSION = auto()
     END_SESSION = auto()
-    START_EPISODE = auto()
-    END_EPISODE = auto()
-    START_MOVEMENT = auto()
-    END_MOVEMENT = auto()
-    RESET_ENV = auto()
-    SWITCH_ROBOT = auto()
+    TOGGLE_MOVEMENT = auto()
+    SAVE_EPISODE = auto()
+    DISCARD_EPISODE = auto()
 
 
 @dataclass
 class TeleopData:
     timestamp: float
+    xr_timestamp: float
     position_xyz: npt.NDArray[np.float64]
     orientation_wxyz: npt.NDArray[np.float64]
-    gripper: float
+    gripper_speed: float

@@ -27,12 +27,12 @@ class iPhoneClient:
 if __name__ == "__main__":
 
     iphone_client = iPhoneClient("tcp://localhost:5555")
-    np.set_printoptions(precision=3)
+    np.set_printoptions(precision=4, suppress=True, sign=" ")
     while True:
         iphone_pose = iphone_client.get_latest_pose()
         if iphone_pose is not None:
             print(
-                f"position: {iphone_pose.position_xyz}, orientation: {iphone_pose.orientation_wxyz}"
+                f"pos: {iphone_pose.position_xyz}, ori: {iphone_pose.orientation_wxyz}, gripper: {iphone_pose.gripper_speed}"
             )
         events = iphone_client.get_event()
         if events:
