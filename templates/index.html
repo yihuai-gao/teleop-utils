@@ -135,13 +135,13 @@
       });
 
       // Let the server know user has started the episode
-      const data = { timestamp: Date.now(), state_update: 'episode_started' };
+      const data = { timestamp: Date.now(), state_update: 'start_episode' };
       socket.send(data);
     }
 
     function onPrepareEndSession() {
       // Let the server know user has ended the episode
-      const data = { timestamp: Date.now(), state_update: 'episode_ended' };
+      const data = { timestamp: Date.now(), state_update: 'end_episode' };
       socket.send(data);
     }
 

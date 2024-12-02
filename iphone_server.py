@@ -6,7 +6,8 @@ from transforms3d import quaternions, affines, euler
 import numpy as np
 import zmq_interface as zi
 import socket
-from iphone_command import iPhoneCommand, iPhoneCommandType
+
+from iphone_command import iPhoneEvents, TeleopData
 import pickle
 
 
@@ -15,7 +16,8 @@ class iPhoneServer:
         self.app = Flask(__name__)
         self.socketio = SocketIO(self.app)
         self.zmq_server = zi.ZMQServer("iPhoneServer", "tcp://*:5555")
-        self.zmq_server.add_topic("iphone_teleop", 10.0)
+        self.zmq_server.add_topic("data", 10.0)
+        self.zmq_server.add_topic("events", 10.0)
 
         @self.app.route("/")
         def index():
@@ -25,8 +27,7 @@ class iPhoneServer:
         def handle_message(data):
             emit("echo", data["timestamp"])
             if "position" in data:
-                new_cmd = iPhoneCommand(
-                    iPhoneCommandType.SEND_DATA,
+                new_cmd = TeleopData(
                     data["timestamp"],
                     np.array(
                         [
@@ -46,7 +47,12 @@ class iPhoneServer:
                     0.0,
                     # data["gripper"],
                 )
-                self.zmq_server.put_data("iphone_teleop", pickle.dumps(new_cmd))
+                self.zmq_server.put_data("data", pickle.dumps(new_cmd))
+            if "state_update" in data:
+                state_update_str: str = data["state_update"]
+                new_event = iPhoneEvents[state_update_str.upper()]
+                self.zmq_server.put_data("events", pickle.dumps(new_event))
+
 
     def run(self):
 
