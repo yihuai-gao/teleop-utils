@@ -1,0 +1,16 @@
+name: iphone-teleop
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - cxx-compiler
+  - cmake
+  - boost
+  - spdlog
+  - pybind11
+  - zeromq
+  - cppzmq
+  - pyzmq
+  - flask
+  - flask-socketio
+  - transforms3d

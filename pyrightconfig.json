@@ -1,0 +1,8 @@
+{
+    "typeCheckingMode": "recommended",
+    "reportUnknownMemberType": false,
+    // "extraPaths": ["third_party/dm_control"],
+    
+    "venv": "iphone-teleop",
+    "venvPath": "/home/yihuai/miniforge3/envs"
+}
