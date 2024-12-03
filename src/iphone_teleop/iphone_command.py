@@ -16,7 +16,7 @@ class iPhoneEvents(IntEnum):
 @dataclass
 class TeleopData:
     timestamp: float
-    xr_timestamp: float
+    xr_timestamp_ms: float
     position_xyz: npt.NDArray[np.float64]
     orientation_wxyz: npt.NDArray[np.float64]
     gripper_speed: float
