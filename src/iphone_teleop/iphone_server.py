@@ -7,7 +7,7 @@ import numpy as np
 import zmq_interface as zi
 import socket
 
-from iphone_teleop.iphone_command import iPhoneEvents, TeleopData
+from .iphone_command import iPhoneEvents, TeleopData
 import pickle
 
 

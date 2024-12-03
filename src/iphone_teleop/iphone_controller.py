@@ -1,5 +1,5 @@
-from iphone_teleop.iphone_client import iPhoneClient
-from iphone_teleop.iphone_command import iPhoneEvents
+from .iphone_client import iPhoneClient
+from .iphone_command import iPhoneEvents
 import numpy as np
 import numpy.typing as npt
 from transforms3d import quaternions
@@ -125,4 +125,4 @@ class iPhoneController:
                 )
             self.last_timestamp = teleop_data.xr_timestamp
 
-        return self.pose_cmd_xyz_wxyz, self.gripper_pos_cmd
+        return self.in_movement, self.pose_cmd_xyz_wxyz, self.gripper_pos_cmd

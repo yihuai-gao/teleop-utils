@@ -1,6 +1,6 @@
 import time
 import zmq_interface as zi
-from iphone_teleop.iphone_command import TeleopData, iPhoneEvents
+from .iphone_command import TeleopData, iPhoneEvents
 import pickle
 import numpy as np
 

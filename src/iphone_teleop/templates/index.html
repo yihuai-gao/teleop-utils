@@ -181,11 +181,11 @@
               touchEventName = 'open_gripper'; // light green
             }
           } else {
-            if (touch.clientX < 0.5 * window.innerWidth) {
-              // bottom left
+            if (touch.clientX > 0.5 * window.innerWidth) {
+              // bottom right
               touchEventName = 'save_episode'; // dark green
             } else {
-              // bottom right
+              // bottom left
               touchEventName = 'toggle_movement'; // light blue
             }
           }
