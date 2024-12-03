@@ -10,7 +10,6 @@ dependencies:
   - pybind11
   - zeromq
   - cppzmq
-  - pyzmq
   - flask
   - flask-socketio
   - transforms3d

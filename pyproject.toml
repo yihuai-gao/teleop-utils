@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iphone-teleop"
+version = "0.1.0"
+description = "iPhone-based teleoperation interface"
+authors = [
+    {name = "Yihuai Gao", email = "yihuai@stanford.edu"},
+]
+dependencies = [
+    "flask",
+    "flask-socketio",
+    "numpy",
+    "transforms3d",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+    "pylint",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["iphone_teleop*"]
