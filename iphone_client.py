@@ -16,7 +16,7 @@ class iPhoneClient:
         iphone_pose: TeleopData = pickle.loads(data_bytes[0])
         return iphone_pose
 
-    def get_event(self):
+    def get_events(self):
         event_bytes, timestamp = self.zmq_client.pop_data("events", "latest", -1)
         events: list[iPhoneEvents] = [
             pickle.loads(event_bytes[i]) for i in range(len(event_bytes))
@@ -34,7 +34,7 @@ if __name__ == "__main__":
             print(
                 f"pos: {iphone_pose.position_xyz}, ori: {iphone_pose.orientation_wxyz}, gripper: {iphone_pose.gripper_speed}"
             )
-        events = iphone_client.get_event()
+        events = iphone_client.get_events()
         if events:
             print(events)
         time.sleep(0.1)
