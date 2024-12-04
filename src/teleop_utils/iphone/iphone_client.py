@@ -1,5 +1,5 @@
 import time
-import zmq_interface as zi
+import pyrmq
 from .iphone_command import TeleopData, iPhoneEvents
 import pickle
 import numpy as np
@@ -7,17 +7,17 @@ import numpy as np
 
 class iPhoneClient:
     def __init__(self, server_address: str):
-        self.zmq_client = zi.ZMQClient("iPhoneClient", server_address)
+        self.rmq_client = pyrmq.RMQClient("iPhoneClient", server_address)
 
     def get_latest_pose(self):
-        data_bytes, timestamp = self.zmq_client.peek_data("data", "latest", 1)
+        data_bytes, timestamp = self.rmq_client.peek_data("data", "latest", 1)
         if len(data_bytes) == 0:
             return None
         iphone_pose: TeleopData = pickle.loads(data_bytes[0])
         return iphone_pose
 
     def get_events(self):
-        event_bytes, timestamp = self.zmq_client.pop_data("events", "latest", -1)
+        event_bytes, timestamp = self.rmq_client.pop_data("events", "latest", -1)
         events: list[iPhoneEvents] = [
             pickle.loads(event_bytes[i]) for i in range(len(event_bytes))
         ]

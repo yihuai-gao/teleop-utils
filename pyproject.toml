@@ -3,9 +3,9 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "iphone-teleop"
+name = "teleop-utils"
 version = "0.1.0"
-description = "iPhone-based teleoperation interface"
+description = "Teleoperation utilities for Robotics"
 authors = [
     {name = "Yihuai Gao", email = "yihuai@stanford.edu"},
 ]
@@ -25,4 +25,4 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["iphone_teleop*"]
+include = ["teleop_utils*"]

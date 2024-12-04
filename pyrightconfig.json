@@ -1,8 +1,9 @@
 {
     "typeCheckingMode": "recommended",
     "reportUnknownMemberType": false,
-    "extraPaths": ["../zmq_interface"],
-    
-    "venv": "iphone-teleop",
+    "extraPaths": [
+        "../pyrmq"
+    ],
+    "venv": "mujoco-env",
     "venvPath": "/home/yihuai/miniforge3/envs"
 }

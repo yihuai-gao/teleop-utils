@@ -1,4 +1,4 @@
-name: iphone-teleop
+name: teleop-utils
 channels:
   - conda-forge
 dependencies:
