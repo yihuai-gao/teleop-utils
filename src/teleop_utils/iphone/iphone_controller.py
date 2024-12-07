@@ -49,11 +49,17 @@ class iPhoneController:
         self.default_gripper_speed_m_per_s: float = default_gripper_speed_m_per_s
         self.gripper_max_pos: float = gripper_max_pos
 
-        self.iphone_camera_in_target_eef_wxyz: npt.NDArray[np.float64] = np.array(iphone_camera_in_target_eef_wxyz)
-        assert self.iphone_camera_in_target_eef_wxyz.shape == (4,), "iphone_camera_in_target_eef_wxyz must be a (4, ) vector"
+        self.iphone_camera_in_target_eef_wxyz: npt.NDArray[np.float64] = np.array(
+            iphone_camera_in_target_eef_wxyz
+        )
+        assert self.iphone_camera_in_target_eef_wxyz.shape == (
+            4,
+        ), "iphone_camera_in_target_eef_wxyz must be a (4, ) vector"
 
         # iphone_in_iphone_world_xyz_wxyz will be transformed to the target world frame
-        self.iphone_in_iphone_world_xyz_wxyz: npt.NDArray[np.float64] = init_pose_xyz_wxyz
+        self.iphone_in_iphone_world_xyz_wxyz: npt.NDArray[np.float64] = (
+            init_pose_xyz_wxyz
+        )
         self.pose_cmd_xyz_wxyz: npt.NDArray[np.float64] = init_pose_xyz_wxyz
         self.gripper_pos_cmd: float = init_gripper_pos
         self.in_movement: bool = False
@@ -136,14 +142,20 @@ class iPhoneController:
                 # Front view
                 x, y, z = -z, -x, y
                 qw, qx, qy, qz = qw, -qx, -qz, -qy
-                movement_pose_in_iphone_camera_xyz_wxyz = np.array([x, y, z, qw, qx, qy, qz])
+                movement_pose_in_iphone_camera_xyz_wxyz = np.array(
+                    [x, y, z, qw, qx, qy, qz]
+                )
                 movement_pose_in_iphone_camera_xyz_wxyz[:3] *= self.arm_movement_scale
                 self.pose_cmd_xyz_wxyz = get_new_pose(
-                    self.movement_start_cmd_xyz_wxyz, movement_pose_in_iphone_camera_xyz_wxyz
+                    self.movement_start_cmd_xyz_wxyz,
+                    movement_pose_in_iphone_camera_xyz_wxyz,
                 )
-                self.gripper_pos_cmd += self.default_gripper_speed_m_per_s/1e3 * (
-                    teleop_data.xr_timestamp_ms - self.last_timestamp
-                ) * teleop_data.gripper_speed
+                self.gripper_pos_cmd += (
+                    self.default_gripper_speed_m_per_s
+                    / 1e3
+                    * (teleop_data.xr_timestamp_ms - self.last_timestamp)
+                    * teleop_data.gripper_speed
+                )
                 print(teleop_data.xr_timestamp_ms - self.last_timestamp)
                 self.gripper_pos_cmd = np.clip(
                     self.gripper_pos_cmd, 0.0, self.gripper_max_pos

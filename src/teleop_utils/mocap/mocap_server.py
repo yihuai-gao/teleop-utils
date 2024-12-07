@@ -30,6 +30,7 @@ from functools import partial
 from transforms3d import quaternions, affines
 from robotmq import RMQServer
 
+
 class MocapServer:
     def __init__(
         self,
@@ -116,6 +117,8 @@ class MocapServer:
 
             trans, rotm, _, _ = affines.decompose(mocap_robot_in_world_frame)
             quat_wxyz = quaternions.mat2quat(rotm)
-            pose_xyz_wxyz_timestamp = np.concatenate([trans, quat_wxyz, [timestamp]], dtype=np.float64)
+            pose_xyz_wxyz_timestamp = np.concatenate(
+                [trans, quat_wxyz, [timestamp]], dtype=np.float64
+            )
             rmq_server.put_data(rigid_body_name, pose_xyz_wxyz_timestamp.tobytes())
         self.prev_receive_time = time.monotonic()
