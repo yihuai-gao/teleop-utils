@@ -4,7 +4,7 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from transforms3d import quaternions, affines, euler
 import numpy as np
-import pyrmq
+import robotmq
 import socket
 
 from .iphone_command import iPhoneEvents, TeleopData
@@ -12,13 +12,16 @@ import pickle
 
 
 class iPhoneServer:
-    def __init__(self, rmq_port: int = 5555, iphone_port: int = 5000):
+    def __init__(self, server_address: str = "tcp://*:5555", iphone_port: int = 5000):
         self.app: Flask = Flask(__name__)
         self.socketio: SocketIO = SocketIO(self.app)
-        self.rmq_server: pyrmq.RMQServer = pyrmq.RMQServer("iPhoneServer", f"tcp://*:{rmq_port}")
+        self.rmq_server: robotmq.RMQServer = robotmq.RMQServer(
+            "iPhoneServer", server_address
+        )
         self.rmq_server.add_topic("data", 10.0)
         self.rmq_server.add_topic("events", 10.0)
         self.iphone_port = iphone_port
+
         @self.app.route("/")
         def index():
             return render_template("index.html")

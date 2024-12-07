@@ -2,7 +2,7 @@
     "typeCheckingMode": "recommended",
     "reportUnknownMemberType": false,
     "extraPaths": [
-        "../pyrmq"
+        "../robot-mq"
     ],
     "venv": "mujoco-env",
     "venvPath": "/home/yihuai/miniforge3/envs"

@@ -1,13 +1,13 @@
 import time
-import pyrmq
+import robotmq
 from .iphone_command import TeleopData, iPhoneEvents
 import pickle
 import numpy as np
 
 
 class iPhoneClient:
-    def __init__(self, server_address: str):
-        self.rmq_client = pyrmq.RMQClient("iPhoneClient", server_address)
+    def __init__(self, server_address: str = "tcp://localhost:5555"):
+        self.rmq_client = robotmq.RMQClient("iPhoneClient", server_address)
 
     def get_latest_pose(self):
         data_bytes, timestamp = self.rmq_client.peek_data("data", "latest", 1)
