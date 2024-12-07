@@ -36,4 +36,8 @@ def main(rigid_body_name: str, server_address: str):
     np.set_printoptions(precision=3, suppress=True)
     while True:
         print(mocap_client.get_latest_pose_xyz_wxyz(rigid_body_name))
-        time.sleep(1)
+        time.sleep(0.01)
+
+
+if __name__ == "__main__":
+    main()

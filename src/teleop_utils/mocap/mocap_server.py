@@ -126,15 +126,25 @@ class MocapServer:
         self.prev_receive_time = time.monotonic()
 
 
+def parse_dict(ctx, param, value):
+    """Parse a dictionary from a string like 'mocap_id1:object_name1,mocap_id2:object_name2'."""
+    if not value:
+        raise click.BadParameter("Dictionary format must be 'mocap_id1:object_name1,mocap_id2:object_name2,...'.")
+    try:
+        return {int(k): v for k, v in (item.split(":") for item in value.split(","))}
+    except ValueError:
+        raise click.BadParameter("Dictionary format must be 'mocap_id1:object_name1,mocap_id2:object_name2,...'.")
+
+
 @click.command()
-@click.option("--mocap-server-ip", type=str, default="127.0.0.1")
+@click.argument("mocap-server-ip", type=str)
+@click.argument("rigid-body-dict", callback=parse_dict)
 @click.option("--rmq-server-address", type=str, default="tcp://*:5556")
-@click.option("--rigid-body-dict", type=str, default="{}")
 def run_mocap_server(
-    mocap_server_ip: str, rmq_server_address: str, rigid_body_dict: str
+    mocap_server_ip: str, rigid_body_dict: dict[int, str], rmq_server_address: str
 ):
     mocap_server = MocapServer(
-        rigid_body_dict=json.loads(rigid_body_dict),
+        rigid_body_dict=rigid_body_dict,
         mocap_server_ip=mocap_server_ip,
         rmq_server_address=rmq_server_address,
     )
