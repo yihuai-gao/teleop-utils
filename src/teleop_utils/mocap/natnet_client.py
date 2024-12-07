@@ -368,7 +368,7 @@ class NatNetClient:
             % (rot[0], rot[1], rot[2], rot[3])
         )
 
-        rigid_body =  RigidBody(new_id, pos, rot)
+        rigid_body = RigidBody(new_id, pos, rot)
 
         # Send information to any listener.
         if self.rigid_body_listener is not None:
@@ -386,7 +386,7 @@ class NatNetClient:
 
             rb_marker_list = []
             for i in marker_count_range:
-                rb_marker_list.append( RigidBodyMarker())
+                rb_marker_list.append(RigidBodyMarker())
 
             # Marker positions
             for i in marker_count_range:
@@ -444,7 +444,7 @@ class NatNetClient:
         )
         offset += 4
         trace_mf("Skeleton %3.1d ID: %3.1d" % (skeleton_num, new_id))
-        skeleton =  Skeleton(new_id)
+        skeleton = Skeleton(new_id)
 
         rigid_body_count = int.from_bytes(
             data[offset : offset + 4], byteorder="little", signed=True
@@ -467,7 +467,7 @@ class NatNetClient:
         # Asset ID 4 bytes
         new_id = int.from_bytes(data[offset : offset + 4], "little", signed=True)
         offset += 4
-        asset =  Asset()
+        asset = Asset()
 
         trace_dd("\tAsset ID     : %d" % (new_id))
         asset.set_id(new_id)
@@ -512,7 +512,7 @@ class NatNetClient:
         )
         offset += 4
         trace_mf("Frame #: %3.1d" % frame_number)
-        frame_prefix_data =  FramePrefixData(frame_number)
+        frame_prefix_data = FramePrefixData(frame_number)
         return offset, frame_prefix_data
 
     def __unpack_data_size(self, data, major, minor):
@@ -544,7 +544,7 @@ class NatNetClient:
         )
         offset += offset_tmp
 
-        other_marker_data =  LegacyMarkerData()
+        other_marker_data = LegacyMarkerData()
         if other_marker_count > 0:
             # get legacy_marker positions
             ### legacy_marker_data
@@ -560,7 +560,7 @@ class NatNetClient:
         return offset, other_marker_data
 
     def __unpack_marker_set_data(self, data, packet_size, major, minor):
-        marker_set_data =  MarkerSetData()
+        marker_set_data = MarkerSetData()
         offset = 0
         # Markerset count (4 bytes)
         marker_set_count = int.from_bytes(
@@ -576,7 +576,7 @@ class NatNetClient:
         offset += offset_tmp
 
         for i in range(0, marker_set_count):
-            marker_data =  MarkerData()
+            marker_data = MarkerData()
             # Model name
             model_name, separator, remainder = bytes(data[offset:]).partition(b"\0")
             offset += len(model_name) + 1
@@ -630,7 +630,7 @@ class NatNetClient:
         return offset, marker_set_data
 
     def __unpack_rigid_body_data(self, data, packet_size, major, minor):
-        rigid_body_data =  RigidBodyData()
+        rigid_body_data = RigidBodyData()
         offset = 0
         # Rigid body count (4 bytes)
         rigid_body_count = int.from_bytes(
@@ -655,7 +655,7 @@ class NatNetClient:
         return offset, rigid_body_data
 
     def __unpack_skeleton_data(self, data, packet_size, major, minor):
-        skeleton_data =  SkeletonData()
+        skeleton_data = SkeletonData()
 
         offset = 0
         # Version 2.1 and later
@@ -690,7 +690,7 @@ class NatNetClient:
         return model_id, marker_id
 
     def __unpack_labeled_marker_data(self, data, packet_size, major, minor):
-        labeled_marker_data =  LabeledMarkerData()
+        labeled_marker_data = LabeledMarkerData()
         offset = 0
         # Labeled markers (Version 2.3 and later)
         labeled_marker_count = 0
@@ -743,15 +743,13 @@ class NatNetClient:
                     residual = residual * 1000.0
                     trace_mf("    err  : [%3.2f]" % residual)
 
-                labeled_marker =  LabeledMarker(
-                    tmp_id, pos, size, param, residual
-                )
+                labeled_marker = LabeledMarker(tmp_id, pos, size, param, residual)
                 labeled_marker_data.add_labeled_marker(labeled_marker)
 
         return offset, labeled_marker_data
 
     def __unpack_force_plate_data(self, data, packet_size, major, minor):
-        force_plate_data =  ForcePlateData()
+        force_plate_data = ForcePlateData()
         n_frames_show_max = 4
         offset = 0
         # Force Plate data (version 2.9 and later)
@@ -775,7 +773,7 @@ class NatNetClient:
                     data[offset : offset + 4], byteorder="little", signed=True
                 )
                 offset += 4
-                force_plate =  ForcePlate(force_plate_id)
+                force_plate = ForcePlate(force_plate_id)
 
                 # Channel Count
                 force_plate_channel_count = int.from_bytes(
@@ -790,7 +788,7 @@ class NatNetClient:
 
                 # Channel Data
                 for j in range(force_plate_channel_count):
-                    fp_channel_data =  ForcePlateChannelData()
+                    fp_channel_data = ForcePlateChannelData()
                     force_plate_channel_frame_count = int.from_bytes(
                         data[offset : offset + 4], byteorder="little", signed=True
                     )
@@ -824,7 +822,7 @@ class NatNetClient:
         return offset, force_plate_data
 
     def __unpack_device_data(self, data, packet_size, major, minor):
-        device_data =  DeviceData()
+        device_data = DeviceData()
         n_frames_show_max = 4
         offset = 0
         # Device data (version 2.11 and later)
@@ -1202,9 +1200,7 @@ class NatNetClient:
                     marker_name = marker_name.decode("utf-8")
                     offset3 += len(marker_name) + 1
 
-                rb_marker = RBMarker(
-                    marker_name, active_label, marker_offset
-                )
+                rb_marker = RBMarker(marker_name, active_label, marker_offset)
                 rb_desc.add_rb_marker(rb_marker)
                 trace_dd(
                     "\t%3.1d Marker Label: %s Position: [ %3.2f %3.2f %3.2f] %s"
@@ -1532,9 +1528,7 @@ class NatNetClient:
         trace_dd("unpack_marker_description processed %3.1d bytes" % offset)
 
         # Package for return object
-        rigid_body_data = AssetRigidBodyData(
-            rbID, pos, rot, mean_error, marker_params
-        )
+        rigid_body_data = AssetRigidBodyData(rbID, pos, rot, mean_error, marker_params)
 
         return offset, rigid_body_data
 

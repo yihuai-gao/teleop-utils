@@ -29,6 +29,8 @@ from functools import partial
 
 from transforms3d import quaternions, affines
 from robotmq import RMQServer
+import click
+import json
 
 
 class MocapServer:
@@ -122,3 +124,23 @@ class MocapServer:
             )
             rmq_server.put_data(rigid_body_name, pose_xyz_wxyz_timestamp.tobytes())
         self.prev_receive_time = time.monotonic()
+
+
+@click.command()
+@click.option("--mocap-server-ip", type=str, default="127.0.0.1")
+@click.option("--rmq-server-address", type=str, default="tcp://*:5556")
+@click.option("--rigid-body-dict", type=str, default="{}")
+def run_mocap_server(
+    mocap_server_ip: str, rmq_server_address: str, rigid_body_dict: str
+):
+    mocap_server = MocapServer(
+        rigid_body_dict=json.loads(rigid_body_dict),
+        mocap_server_ip=mocap_server_ip,
+        rmq_server_address=rmq_server_address,
+    )
+    while True:
+        time.sleep(1)
+
+
+if __name__ == "__main__":
+    run_mocap_server()
