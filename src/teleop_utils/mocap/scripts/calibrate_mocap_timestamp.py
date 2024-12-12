@@ -11,7 +11,7 @@ from PIL import Image
 def main(rigid_body_name: str):
     # Initialize Mocap Client
     mocap_client = MocapClient()
-    fps = 60
+    fps = 30
 
     # Pygame initialization
     pygame.init()
@@ -29,6 +29,7 @@ def main(rigid_body_name: str):
     )
 
     running = True
+    last_time = time.time()
     while running:
         start_time = time.time()
 
