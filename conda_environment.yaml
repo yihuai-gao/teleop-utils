@@ -13,3 +13,10 @@ dependencies:
   - flask
   - flask-socketio
   - transforms3d
+  - qrcode
+  - pygame
+  - pynput
+  - click
+  - av
+  - opencv
+  - pyzbar

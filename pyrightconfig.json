@@ -4,6 +4,6 @@
     "extraPaths": [
         "../robot-mq"
     ],
-    "venv": "mujoco-env",
+    "venv": "teleop-utils",
     "venvPath": "/home/yihuai/miniforge3/envs"
 }
