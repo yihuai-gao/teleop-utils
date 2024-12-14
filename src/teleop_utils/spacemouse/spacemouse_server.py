@@ -13,6 +13,7 @@ from spnav import (
 )
 import robotmq
 import click
+import time
 
 
 class SpacemouseServer:
@@ -75,7 +76,11 @@ class SpacemouseServer:
         try:
             motion_event = np.zeros((6,), dtype=np.float64)
             button_state = np.zeros((self.n_buttons,), dtype=np.float64)
+            prev_time = time.time()
             while True:
+                while time.time() - prev_time < 1 / self.frequency:
+                    pass
+                prev_time += 1 / self.frequency
                 event = spnav_poll_event()
                 if isinstance(event, SpnavMotionEvent):
                     motion_event[:3] = event.translation
@@ -97,6 +102,7 @@ class SpacemouseServer:
                 state = np.concatenate([state, button_state])
 
                 self.rmq_server.put_data("spacemouse_state", state.tobytes())
+
         finally:
             spnav_close()
 
@@ -109,12 +115,13 @@ class SpacemouseServer:
 def run_spacemouse_server(
     rmq_server_address: str, frequency: float, deadzone: float, n_buttons: int
 ):
-    SpacemouseServer(
+    server = SpacemouseServer(
         rmq_server_address=rmq_server_address,
         frequency=frequency,
         deadzone=deadzone,
         n_buttons=n_buttons,
-    ).run()
+    )
+    server.run()
 
 
 if __name__ == "__main__":

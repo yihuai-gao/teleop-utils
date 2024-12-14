@@ -2,7 +2,7 @@
     "typeCheckingMode": "recommended",
     "reportUnknownMemberType": false,
     "extraPaths": [
-        "../robot-mq"
+        "../robot-message-queue"
     ],
     "venv": "teleop-utils",
     "venvPath": "/home/yihuai/miniforge3/envs"
