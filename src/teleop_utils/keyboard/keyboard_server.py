@@ -15,13 +15,15 @@ class KeyboardServer:
         self.stdscr.keypad(True)
         self.stdscr.timeout(100)
 
+        key_press_cnt = 0
         try:
             while True:
                 key = self.stdscr.getch()
                 if key == -1:
                     continue
                 key_name = curses.keyname(key).decode("utf-8")
-                print(f"Key pressed: {key_name}")
+                key_press_cnt += 1
+                print(f"Key pressed {key_press_cnt}: {key_name}")
                 self.rmq_server.put_data("keyboard", key_name.encode("utf-8"))
         except KeyboardInterrupt:
             print("Keyboard server ended by user")
