@@ -1,8 +1,5 @@
-import signal
-import sys
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from transforms3d import quaternions, affines, euler
 import numpy as np
 import robotmq
 import socket

@@ -6,6 +6,7 @@ import pygame
 import click
 from PIL import Image
 
+
 @click.command()
 @click.argument("rigid_body_name", type=str)
 def main(rigid_body_name: str):
@@ -70,6 +71,7 @@ def main(rigid_body_name: str):
         clock.tick(fps)
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()

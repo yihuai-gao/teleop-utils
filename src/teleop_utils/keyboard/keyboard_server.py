@@ -28,6 +28,7 @@ class KeyboardServer:
         except KeyboardInterrupt:
             print("Keyboard server ended by user")
 
+
 @click.command()
 @click.option("--rmq-server-address", default="tcp://*:5558")
 def main(rmq_server_address: str):

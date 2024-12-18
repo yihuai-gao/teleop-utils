@@ -3,6 +3,7 @@ import numpy.typing as npt
 import pickle
 import click
 
+
 @click.command()
 @click.argument("data_file", type=click.Path(exists=True))
 def main(data_file: str):

@@ -129,11 +129,15 @@ class MocapServer:
 def parse_dict(ctx, param, value):
     """Parse a dictionary from a string like 'mocap_id1:object_name1,mocap_id2:object_name2'."""
     if not value:
-        raise click.BadParameter("Dictionary format must be 'mocap_id1:object_name1,mocap_id2:object_name2,...'.")
+        raise click.BadParameter(
+            "Dictionary format must be 'mocap_id1:object_name1,mocap_id2:object_name2,...'."
+        )
     try:
         return {int(k): v for k, v in (item.split(":") for item in value.split(","))}
     except ValueError:
-        raise click.BadParameter("Dictionary format must be 'mocap_id1:object_name1,mocap_id2:object_name2,...'.")
+        raise click.BadParameter(
+            "Dictionary format must be 'mocap_id1:object_name1,mocap_id2:object_name2,...'."
+        )
 
 
 @click.command()
