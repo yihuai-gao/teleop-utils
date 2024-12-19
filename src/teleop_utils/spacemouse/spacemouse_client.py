@@ -12,6 +12,9 @@ class SpacemouseClient:
     ):
         self.rmq_client = RMQClient("spacemouse_client", rmq_server_address)
         connect_start_time = time.time()
+        print(f"Connecting to spacemouse server at {rmq_server_address}")
+        self.get_latest_state()
+        print("Spacemouse server connected")
         # while time.time() - connect_start_time < connection_timeout_s:
         #     raw_data, _ = self.rmq_client.peek_data("spacemouse_state", "latest", 1)
         #     if len(raw_data) > 0:

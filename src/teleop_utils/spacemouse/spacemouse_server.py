@@ -78,8 +78,9 @@ class SpacemouseServer:
             button_state = np.zeros((self.n_buttons,), dtype=np.float64)
             prev_time = time.time()
             while True:
-                if prev_time + 1 / self.frequency - time.time() > 0:
-                    time.sleep(prev_time + 1 / self.frequency - time.time())
+                sleep_time = prev_time + 1 / self.frequency - time.time()
+                if sleep_time > 0:
+                    time.sleep(sleep_time)
                 prev_time += 1 / self.frequency
                 event = spnav_poll_event()
                 if isinstance(event, SpnavMotionEvent):
