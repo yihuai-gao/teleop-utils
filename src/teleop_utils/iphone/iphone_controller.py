@@ -1,34 +1,10 @@
+from teleop_utils.utils.pose_utils import get_absolute_pose, get_relative_pose
 from .iphone_client import iPhoneClient
 from .iphone_command import iPhoneEvents
 import numpy as np
 import numpy.typing as npt
 from transforms3d import quaternions
 
-
-def get_new_pose(
-    init_pose_xyz_wxyz: npt.NDArray[np.float64],
-    relative_pose_xyz_wxyz: npt.NDArray[np.float64],
-):
-    """The new pose is in the same frame of reference as the initial pose"""
-    new_pose_xyz_wxyz = np.zeros(7, dtype=np.float64)
-    new_pose_xyz_wxyz[:3] = init_pose_xyz_wxyz[:3] + relative_pose_xyz_wxyz[:3]
-    new_pose_xyz_wxyz[3:] = quaternions.qmult(
-        init_pose_xyz_wxyz[3:], relative_pose_xyz_wxyz[3:]
-    )
-    return new_pose_xyz_wxyz
-
-
-def get_relative_pose(
-    new_pose_xyz_wxyz: npt.NDArray[np.float64],
-    init_pose_xyz_wxyz: npt.NDArray[np.float64],
-):
-    """The two poses are in the same frame of reference"""
-    relative_pose_xyz_wxyz = np.zeros(7, dtype=np.float64)
-    relative_pose_xyz_wxyz[:3] = new_pose_xyz_wxyz[:3] - init_pose_xyz_wxyz[:3]
-    relative_pose_xyz_wxyz[3:] = quaternions.qmult(
-        quaternions.qinverse(init_pose_xyz_wxyz[3:]), new_pose_xyz_wxyz[3:]
-    )
-    return relative_pose_xyz_wxyz
 
 
 class iPhoneController:
@@ -146,7 +122,7 @@ class iPhoneController:
                     [x, y, z, qw, qx, qy, qz]
                 )
                 movement_pose_in_iphone_camera_xyz_wxyz[:3] *= self.arm_movement_scale
-                self.pose_cmd_xyz_wxyz = get_new_pose(
+                self.pose_cmd_xyz_wxyz = get_absolute_pose(
                     self.movement_start_cmd_xyz_wxyz,
                     movement_pose_in_iphone_camera_xyz_wxyz,
                 )

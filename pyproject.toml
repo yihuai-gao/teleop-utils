@@ -27,4 +27,4 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["teleop_utils*", "teleop_utils/iphone/*", "teleop_utils/mocap/*", "teleop_utils/spacemouse/*", "teleop_utils/keyboard/*"]
+include = ["teleop_utils*", "teleop_utils/iphone/*", "teleop_utils/mocap/*", "teleop_utils/spacemouse/*", "teleop_utils/keyboard/*", "teleop_utils/utils/*"]
