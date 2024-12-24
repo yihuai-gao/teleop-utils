@@ -1,9 +1,9 @@
 ## Default robotmq addresses:
 
-- iphone: `tcp://*:5555`
-- mocap: `tcp://*:5556`
-- spacemouse: `tcp://*:5557`
-- keyboard: `tcp://*:5558`
+- iphone: `tcp://*:15555`
+- mocap: `tcp://*:15556`
+- spacemouse: `tcp://*:15557`
+- keyboard: `tcp://*:15558`
 
 ## Install
 

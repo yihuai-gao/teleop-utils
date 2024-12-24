@@ -4,7 +4,7 @@ import time
 
 
 class KeyboardClient:
-    def __init__(self, rmq_server_address: str = "tcp://localhost:5558"):
+    def __init__(self, rmq_server_address: str = "tcp://localhost:15558"):
         self.rmq_client: RMQClient = RMQClient("keyboard_client", rmq_server_address)
         print(f"Connecting to keyboard server at {rmq_server_address}")
         self.rmq_client.pop_data("keyboard", "earliest", -1)  # pop all previous data

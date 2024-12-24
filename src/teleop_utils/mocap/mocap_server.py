@@ -38,7 +38,7 @@ class MocapServer:
         self,
         rigid_body_dict: Dict[int, str],
         mocap_server_ip: str,
-        rmq_server_address: str = "tcp://*:5556",
+        rmq_server_address: str = "tcp://*:15556",
         use_multicast=True,
     ):
 
@@ -143,7 +143,7 @@ def parse_dict(ctx, param, value):
 @click.command()
 @click.argument("mocap-server-ip", type=str)
 @click.argument("rigid-body-dict", callback=parse_dict)
-@click.option("--rmq-server-address", type=str, default="tcp://*:5556")
+@click.option("--rmq-server-address", type=str, default="tcp://*:15556")
 def run_mocap_server(
     mocap_server_ip: str, rigid_body_dict: dict[int, str], rmq_server_address: str
 ):

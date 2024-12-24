@@ -6,7 +6,7 @@ import numpy as np
 
 
 class iPhoneClient:
-    def __init__(self, server_address: str = "tcp://localhost:5555"):
+    def __init__(self, server_address: str = "tcp://localhost:15555"):
         self.rmq_client = robotmq.RMQClient("iPhoneClient", server_address)
 
     def get_latest_pose(self):
@@ -26,7 +26,7 @@ class iPhoneClient:
 
 if __name__ == "__main__":
 
-    iphone_client = iPhoneClient("tcp://localhost:5555")
+    iphone_client = iPhoneClient("tcp://localhost:15555")
     np.set_printoptions(precision=4, suppress=True, sign=" ")
     while True:
         iphone_pose = iphone_client.get_latest_pose()

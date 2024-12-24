@@ -6,7 +6,7 @@ import numpy.typing as npt
 
 
 class MocapClient:
-    def __init__(self, server_address: str = "tcp://localhost:5556"):
+    def __init__(self, server_address: str = "tcp://localhost:15556"):
         self.rmq_client = robotmq.RMQClient("mocap_client", server_address)
 
     def get_latest_pose_xyz_wxyz(self, rigid_body_name: str):
@@ -30,7 +30,7 @@ class MocapClient:
 
 @click.command()
 @click.argument("rigid-body-name")
-@click.option("--server-address", default="tcp://localhost:5556")
+@click.option("--server-address", default="tcp://localhost:15556")
 def main(rigid_body_name: str, server_address: str):
     mocap_client = MocapClient(server_address)
     np.set_printoptions(precision=3, suppress=True)

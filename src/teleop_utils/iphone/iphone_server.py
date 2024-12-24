@@ -9,7 +9,7 @@ import pickle
 
 
 class iPhoneServer:
-    def __init__(self, server_address: str = "tcp://*:5555", iphone_port: int = 5000):
+    def __init__(self, server_address: str = "tcp://*:15555", iphone_port: int = 5000):
         self.app: Flask = Flask(__name__)
         self.socketio: SocketIO = SocketIO(self.app)
         self.rmq_server: robotmq.RMQServer = robotmq.RMQServer(

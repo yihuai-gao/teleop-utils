@@ -19,7 +19,7 @@ import time
 class SpacemouseServer:
     def __init__(
         self,
-        rmq_server_address: str = "tcp://*:5557",
+        rmq_server_address: str = "tcp://*:15557",
         frequency: float = 200,
         deadzone: float = 0.0,
         n_buttons: int = 2,
@@ -109,7 +109,7 @@ class SpacemouseServer:
 
 
 @click.command()
-@click.option("--rmq-server-address", type=str, default="tcp://*:5557")
+@click.option("--rmq-server-address", type=str, default="tcp://*:15557")
 @click.option("--frequency", type=float, default=200)
 @click.option("--deadzone", type=float, default=0.0)
 @click.option("--n-buttons", type=int, default=2)

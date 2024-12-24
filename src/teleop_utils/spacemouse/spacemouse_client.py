@@ -7,7 +7,7 @@ import time
 class SpacemouseClient:
     def __init__(
         self,
-        rmq_server_address: str = "tcp://localhost:5557",
+        rmq_server_address: str = "tcp://localhost:15557",
         connection_timeout_s: float = 1.0,
     ):
         self.rmq_client = RMQClient("spacemouse_client", rmq_server_address)

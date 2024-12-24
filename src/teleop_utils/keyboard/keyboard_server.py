@@ -5,7 +5,7 @@ import time
 
 
 class KeyboardServer:
-    def __init__(self, stdscr: curses.window, rmq_server_address: str = "tcp://*:5558"):
+    def __init__(self, stdscr: curses.window, rmq_server_address: str = "tcp://*:15558"):
         self.stdscr = stdscr
         self.rmq_server = robotmq.RMQServer("keyboard_server", rmq_server_address)
         self.rmq_server.add_topic("keyboard", 30.0)
@@ -30,7 +30,7 @@ class KeyboardServer:
 
 
 @click.command()
-@click.option("--rmq-server-address", default="tcp://*:5558")
+@click.option("--rmq-server-address", default="tcp://*:15558")
 def main(rmq_server_address: str):
     server = curses.wrapper(KeyboardServer, rmq_server_address)
     server.run()
