@@ -21,10 +21,10 @@ spacemouse = ["spnav @ https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc54
 all = ["flask","flask-socketio","spnav @ https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc542db4685e0d13850ff1abfdb943.tar.gz"]
 
 [project.scripts]
-spacemouse_server = "src.teleop_utils.spacemouse.spacemouse_server:run_spacemouse_server"
-keyboard_server = "src.teleop_utils.keyboard.keyboard_server:run_keyboard_server"
-mocap_server = "src.teleop_utils.mocap.mocap_server:run_mocap_server"
-iphone_server = "src.teleop_utils.iphone.iphone_server:run_iphone_server"
+spacemouse_server = "teleop_utils.spacemouse.spacemouse_server:run_spacemouse_server"
+keyboard_server = "teleop_utils.keyboard.keyboard_server:run_keyboard_server"
+mocap_server = "teleop_utils.mocap.mocap_server:run_mocap_server"
+iphone_server = "teleop_utils.iphone.iphone_server:run_iphone_server"
 
 [tool.setuptools.packages.find]
 where = ["src"]
