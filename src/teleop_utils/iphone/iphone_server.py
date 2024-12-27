@@ -6,14 +6,14 @@ import socket
 
 from .iphone_command import iPhoneEvents, TeleopData
 import pickle
-
+import click
 
 class iPhoneServer:
-    def __init__(self, server_address: str = "tcp://*:15555", iphone_port: int = 5000):
+    def __init__(self, rmq_server_address: str, iphone_port: int):
         self.app: Flask = Flask(__name__)
         self.socketio: SocketIO = SocketIO(self.app)
         self.rmq_server: robotmq.RMQServer = robotmq.RMQServer(
-            "iPhoneServer", server_address
+            "iPhoneServer", rmq_server_address
         )
         self.rmq_server.add_topic("data", 10.0)
         self.rmq_server.add_topic("events", 10.0)
@@ -68,6 +68,12 @@ class iPhoneServer:
         self.socketio.run(self.app, host="0.0.0.0")
 
 
-if __name__ == "__main__":
-    iphone_server = iPhoneServer()
+@click.command()
+@click.option("--iphone-port", type=int, default=5000)
+@click.option("--rmq-server-address", type=str, default="tcp://*:15555")
+def run_iphone_server(iphone_port: int, rmq_server_address: str):
+    iphone_server = iPhoneServer(iphone_port=iphone_port, rmq_server_address=rmq_server_address)
     iphone_server.run()
+
+if __name__ == "__main__":
+    run_iphone_server()

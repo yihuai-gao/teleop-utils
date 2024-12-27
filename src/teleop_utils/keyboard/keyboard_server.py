@@ -31,10 +31,10 @@ class KeyboardServer:
 
 @click.command()
 @click.option("--rmq-server-address", default="tcp://*:15558")
-def main(rmq_server_address: str):
+def run_keyboard_server(rmq_server_address: str):
     server = curses.wrapper(KeyboardServer, rmq_server_address)
     server.run()
 
 
 if __name__ == "__main__":
-    main()
+    run_keyboard_server()
