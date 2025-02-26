@@ -27,10 +27,10 @@ In one terminal, run the server and keep it running in the background. You don't
 ```bash
 conda activate teleop-utils # Or some other environment
 # Run the server (choose one of them)
-python -m teleop_utils.spacemouse.spacemouse_server
-python -m teleop_utils.iphone.iphone_server
-python -m teleop_utils.mocap.mocap_server
-python -m teleop_utils.keyboard.keyboard_server
+keyboard_server
+spacemouse_server
+iphone_server
+mocap_server
 ```
 
 In another terminal, run the test scripts in the client code. You can follow these scripts and integrate the client into your code base.
@@ -38,10 +38,10 @@ In another terminal, run the test scripts in the client code. You can follow the
 ```bash
 conda activate teleop-utils # Or another environment (even with different python versions than the server)
 # Run the client (choose one of them)
+python -m teleop_utils.keyboard.keyboard_client
 python -m teleop_utils.spacemouse.spacemouse_client
 python -m teleop_utils.iphone.iphone_client
 python -m teleop_utils.mocap.mocap_client
-python -m teleop_utils.keyboard.keyboard_client
 ```
 
 ## Important Notes
