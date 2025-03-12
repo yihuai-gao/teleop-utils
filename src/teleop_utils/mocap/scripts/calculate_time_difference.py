@@ -1,3 +1,8 @@
+# Copyright (c) 2025 yihuai
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 """
 This script calculates the time difference between the mocap timestamp and the video recorder timestamp.
 For example, if you are using GoPro to shoot the video of the mocap qr code, this script will provide

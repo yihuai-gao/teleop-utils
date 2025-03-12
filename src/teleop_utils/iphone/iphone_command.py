@@ -1,3 +1,8 @@
+# Copyright (c) 2025 yihuai
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 from dataclasses import dataclass
 from enum import IntEnum, auto
 import numpy as np

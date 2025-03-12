@@ -1,3 +1,8 @@
+# Copyright (c) 2025 yihuai
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 """
 Spacemouse server adapted from https://github.com/real-stanford/universal_manipulation_interface/blob/main/umi/real_world/spacemouse_shared_memory.py by Cheng Chi
 """

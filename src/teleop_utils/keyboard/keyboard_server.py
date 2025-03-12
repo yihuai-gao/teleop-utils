@@ -1,3 +1,8 @@
+# Copyright (c) 2025 yihuai
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 import click
 import robotmq
 import curses

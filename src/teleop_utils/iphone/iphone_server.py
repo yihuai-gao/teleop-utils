@@ -1,3 +1,8 @@
+# Copyright (c) 2025 yihuai
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 import numpy as np

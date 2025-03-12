@@ -1,5 +1,8 @@
 {
     "editor.formatOnSave": true,
     "python.languageServer": "None",
-    "licenser.disableAutoHeaderInsertion": true
+    "licenser.disableAutoHeaderInsertion": true,
+    "licenser.license": "MIT",
+    "licenser.author": "Yihuai Gao",
+    "licenser.projectName": "teleop-utils"
 }

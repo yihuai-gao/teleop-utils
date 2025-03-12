@@ -1,3 +1,8 @@
+# Copyright (c) 2025 yihuai
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 from teleop_utils.utils.pose_utils import get_absolute_pose, get_relative_pose
 from .iphone_client import iPhoneClient
 from .iphone_command import iPhoneEvents
