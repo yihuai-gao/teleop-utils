@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "teleop-utils"
-version = "0.1.0"
+version = "0.1.1"
 description = "Teleoperation utilities for Robotics"
 authors = [{ name = "Yihuai Gao", email = "yihuai@stanford.edu" }]
 dependencies = [
@@ -14,7 +14,7 @@ dependencies = [
     "robotmq",
     "flask",
     "flask-socketio",
-    "spnav",
+    "spnav @ https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc542db4685e0d13850ff1abfdb943.tar.gz",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
