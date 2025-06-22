@@ -47,5 +47,5 @@ python -m teleop_utils.mocap.mocap_client
 
 ## Important Notes
 
-- You can run the server and client in different python environments, but please make sure the numpy versions are compatible between the server and client when using `pickle.dumps` (otherwise you may get some `numpy` errors, such as `No module named numpy._core`). To solve this, you can use `robotmq.utils.serialize_numpy` to serialize nested numpy objects (list, dict, tuple, etc.).
+- You can run the server and client in different python environments, but please make sure the numpy versions are compatible between the server and client when using `pickle.dumps` (otherwise you may get some `numpy` errors, such as `No module named numpy._core`). To solve this, you can use `robotmq.utils.serialize` to serialize nested numpy objects (list, dict, tuple, etc.).
 - The keyboard server will only listen to the keyboard events in the terminal where it is running.
