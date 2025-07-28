@@ -1,5 +1,5 @@
 # Copyright (c) 2025 yihuai
-# 
+#
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
@@ -15,14 +15,14 @@ class iPhoneClient:
         self.rmq_client = robotmq.RMQClient("iPhoneClient", server_address)
 
     def get_latest_pose(self):
-        data_bytes, timestamp = self.rmq_client.peek_data("data", "latest", 1)
+        data_bytes, timestamp = self.rmq_client.peek_data("data", -1)
         if len(data_bytes) == 0:
             return None
         iphone_pose: TeleopData = pickle.loads(data_bytes[0])
         return iphone_pose
 
     def get_events(self):
-        event_bytes, timestamp = self.rmq_client.pop_data("events", "latest", -1)
+        event_bytes, timestamp = self.rmq_client.pop_data("events", 0)
         events: list[iPhoneEvents] = [
             pickle.loads(event_bytes[i]) for i in range(len(event_bytes))
         ]
