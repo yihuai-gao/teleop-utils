@@ -1,5 +1,5 @@
 # Copyright (c) 2025 yihuai
-# 
+#
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
@@ -9,22 +9,7 @@ Spacemouse server adapted from https://github.com/real-stanford/universal_manipu
 
 import numpy as np
 import numpy.typing as npt
-try:
-    try:
-        from spnav import (
-            SpnavButtonEvent,
-            SpnavMotionEvent,
-            spnav_close,
-            spnav_open,
-            spnav_poll_event,
-            SpnavConnectionException,
-        )
-    except ImportError as e:
-        raise ImportError("Package `spnav` not found. Please install it with \n\tpip install https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc542db4685e0d13850ff1abfdb943.tar.gz")
-        
-except AttributeError as e:
-    raise ImportError("Package `spnav` version is incompatible. Please install it with \n\tpip install --force-reinstall https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc542db4685e0d13850ff1abfdb943.tar.gz")
-    
+
 import robotmq
 import click
 import time
@@ -60,8 +45,6 @@ class SpacemouseServer:
         self.deadzone = deadzone
         self.n_buttons = n_buttons
         self.max_value = max_value
-        # self.motion_event = SpnavMotionEvent([0,0,0], [0,0,0], 0)
-        # self.button_state = defaultdict(lambda: False)
         self.tx_zup_spnav = np.array(
             [[0, 0, -1], [1, 0, 0], [0, 1, 0]], dtype=np.float64
         )
@@ -86,16 +69,39 @@ class SpacemouseServer:
         return tf_state
 
     def run(self):
+
+        try:
+            try:
+                from spnav import (
+                    SpnavButtonEvent,
+                    SpnavMotionEvent,
+                    spnav_close,
+                    spnav_open,
+                    spnav_poll_event,
+                    SpnavConnectionException,
+                )
+            except ImportError as e:
+                raise ImportError(
+                    "Package `spnav` not found. Please install it with \n\tpip install https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc542db4685e0d13850ff1abfdb943.tar.gz"
+                )
+
+        except AttributeError as e:
+            raise ImportError(
+                "Package `spnav` version is incompatible. Please install it with \n\tpip install --force-reinstall https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc542db4685e0d13850ff1abfdb943.tar.gz"
+            )
+
         try:
             spnav_open()
         except SpnavConnectionException as e:
-            raise RuntimeError("""Failed to connect to the spacemouse. 
+            raise RuntimeError(
+                """Failed to connect to the spacemouse. 
 Please check if the spacemouse is connected and the permissions are set correctly.
 To enable the spacemouse connection service, please run the following commands:
     sudo apt install libspnav-dev spacenavd
     sudo systemctl enable spacenavd.service
     sudo systemctl start spacenavd.service
-            """)
+            """
+            )
 
         try:
             motion_event = np.zeros((6,), dtype=np.float64)
