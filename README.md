@@ -5,6 +5,9 @@
  https://opensource.org/licenses/MIT
 -->
 
+# Update
+This repo is merged into [robot-utils](https://github.com/yihuai-gao/robot-utils)
+
 ## Default robotmq addresses:
 
 - iphone: `tcp://*:15555`
